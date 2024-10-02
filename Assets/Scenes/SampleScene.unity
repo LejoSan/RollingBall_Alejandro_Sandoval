@@ -411,6 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 5
   direccion: {x: 1, y: 0, z: 0}
+  CambioDireccion: 5
 --- !u!65 &481490890
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -640,17 +641,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 496213679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40eaf333d1fee5b4a9bdb72b1b2f2343, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bd3bb308573cef4e9888b245fea43b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuerzaSalto: 5
   velocidadMovimiento: 3
-  rangoAccionComer: 2
-  velocidadDesplazamientoHaciaEnemigo: 20
-  velocidadCaidaDespacio: 0.5
+  fuerzaSalto: 5
   distanciaChequeoSuelo: 1.1
-  frecuenciaComerAutomatico: 1
-  vidaRestarE: 1
 --- !u!1 &722115291
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,9 +766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca817e0d6c69654c8fa8bead9fee552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidas: 5
-  rangoPersecucion: 5
-  velocidadMovimiento: 2
 --- !u!65 &722115297
 BoxCollider:
   m_ObjectHideFlags: 0

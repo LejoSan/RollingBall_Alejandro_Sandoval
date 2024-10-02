@@ -4,15 +4,47 @@ using UnityEngine;
 
 public class Control_Personaje : MonoBehaviour
 {
+    [SerializeField] private float velocidadMovimiento = 5f;
+    [SerializeField] private float fuerzaSalto = 5f;
+    [SerializeField] private float distanciaChequeoSuelo = 1.1f;
+
+    private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ManejarMovimiento();
+        Condicion_Salto();
+    }
+    private void ManejarMovimiento()
+    {
+        float movimientoHorizontal = Input.GetAxis("Horizontal") * velocidadMovimiento;
+        float movimientoVertical = Input.GetAxis("Vertical") * velocidadMovimiento;
+
+        Vector3 movimiento = new Vector3(movimientoHorizontal, 0.0f, movimientoVertical);
+        rb.AddForce(movimiento);
+    }
+
+    private void Condicion_Salto()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && EstaEnElSuelo())
+        {
+            SaltarNormal();
+        }
+    }
+
+    private void SaltarNormal()
+    {
+        rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+    }
+
+    private bool EstaEnElSuelo()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, distanciaChequeoSuelo);
     }
 }
