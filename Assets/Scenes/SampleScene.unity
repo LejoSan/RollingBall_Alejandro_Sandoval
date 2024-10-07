@@ -411,7 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 5
   direccion: {x: 1, y: 0, z: 0}
-  CambioDireccion: 5
+  CambioDireccion: 2
 --- !u!65 &481490890
 BoxCollider:
   m_ObjectHideFlags: 0
