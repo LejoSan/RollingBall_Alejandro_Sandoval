@@ -9,6 +9,7 @@ public class Control_Personaje : MonoBehaviour
     [SerializeField] private float distanciaChequeoSuelo = 1.1f;
     
     private bool EstaCominedo = false;
+    private bool HaLlegadoAlEnemigo = false;
     [SerializeField] private float velocidadDesplazamientoRapido = 10f;
     [SerializeField] private int Danho = 1;
 
