@@ -9,6 +9,7 @@ public class Control_Personaje : MonoBehaviour
     [SerializeField] private float distanciaChequeoSuelo = 1.1f;
 
     private Rigidbody rb;
+    private Control_Enemigo EnemigoActual;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,14 @@ public class Control_Personaje : MonoBehaviour
 
         Vector3 movimiento = new Vector3(movimientoHorizontal, 0.0f, movimientoVertical);
         rb.AddForce(movimiento);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Enemigo") && Input.GetKeyDown(KeyCode.E)){
+
+            EnemigoActual = other.GetComponent<Control_Enemigo>();
+        }
     }
 
     private void Condicion_Salto()
