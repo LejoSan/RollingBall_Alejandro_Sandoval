@@ -65,9 +65,12 @@ public class Control_Personaje : MonoBehaviour
     {
         EstaCominedo = true;
 
-        Vector3 direccion = (EnemigoActual.transform.position - transform.position).normalized;
+        Vector3 direccion = (EnemigoActual.transform.position - this.transform.position).normalized;
+
         rb.velocity = direccion * velocidadDesplazamientoRapido;
     }
+
+    private 
 
     private void ComerEnemigo()
     {
