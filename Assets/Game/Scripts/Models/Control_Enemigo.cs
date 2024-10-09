@@ -24,15 +24,22 @@ public class Control_Enemigo : MonoBehaviour
     public void RecibirDahno(int cantidad)
     {
         vida = vida - cantidad;
-        if (vida <= 0)
-        {
-            DestruirEnemigo();
-        }
+
+
     }
 
-    private void DestruirEnemigo()
+    public  void DestruirEnemigo()
     {
-        Destroy(gameObject);
+        if (vida <= 0)
+        {
+            Destroy(gameObject);
+        }
+        
+    }
+
+    public bool EstaVivo()
+    {
+        return vida > 0;
     }
 
 }

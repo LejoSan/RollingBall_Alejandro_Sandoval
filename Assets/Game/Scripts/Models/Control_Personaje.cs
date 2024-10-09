@@ -13,8 +13,6 @@ public class Control_Personaje : MonoBehaviour
     [SerializeField] private float velocidadDesplazamientoRapido = 10f;
     [SerializeField] private int Danho = 1;
 
-   
-
     private Rigidbody rb;
     private Control_Enemigo EnemigoActual;
     // Start is called before the first frame update
@@ -26,13 +24,16 @@ public class Control_Personaje : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (!EstaCominedo && !HaLlegadoAlEnemigo)
         if (!EstaCominedo)
+        /*if (!HaLlegadoAlEnemigo)*/
         {
+           
             EnMovimiento();
             Condicion_Salto();
         }
 
-        if (EnemigoActual != null && Input.GetKey(KeyCode.E))
+        if (HaLlegadoAlEnemigo && Input.GetKeyDown(KeyCode.E))
         {
             ComerEnemigo();
         }
@@ -68,19 +69,72 @@ public class Control_Personaje : MonoBehaviour
         Vector3 direccion = (EnemigoActual.transform.position - this.transform.position).normalized;
 
         rb.velocity = direccion * velocidadDesplazamientoRapido;
+        Vector3 distancia = (EnemigoActual.transform.position - this.transform.position);
+ 
+        //if(distancia.magnitude < 0.1f)
+        //{
+        //     Debug.Log("LLEGUE AL ENEMIGO ");
+
+        //}
+        //StartCoroutine(DetenerseAlllegar());
+ 
+        StartCoroutine(DetenerseAlllegar());
     }
 
-    private 
+    private IEnumerator DetenerseAlllegar()
+    {
+
+        //while (Vector3.Distance(transform.position, EnemigoActual.transform.position) > 0.1f)
+        //{
+        //    yield return null;
+        //}
+
+        yield return new WaitForSeconds(0.5f);
+        rb.velocity = Vector3.zero;
+        Debug.Log("ME DETUVE ");
+
+        HaLlegadoAlEnemigo = true;
+        EstaCominedo = false;
+      
+        //while (HaLlegadoAlEnemigo)
+        //{
+        //    yield return null;
+        //}
+
+        //yield return new WaitForSeconds(0.5f);
+        //rb.velocity = Vector3.zero;
+        //HaLlegadoAlEnemigo = true;
+        //EstaCominedo = false;
+    }
 
     private void ComerEnemigo()
     {
-        EnemigoActual.RecibirDahno(Danho);
 
-        if (EnemigoActual == null || EnemigoActual.gameObject == null){
+        if(EnemigoActual != null) 
+        
+        {
 
-            SaltarNormal();
-            EstaCominedo = false;
+            EnemigoActual.RecibirDahno(Danho);
+
+            Debug.Log("TE QUITE " + EnemigoActual.Vida);
+
+            if (!EnemigoActual.EstaVivo())
+            {
+                EnemigoActual.DestruirEnemigo();
+                HaLlegadoAlEnemigo = false;
+                EstaCominedo = false;
+                Debug.Log("TE MATE");
+
+            }
+
         }
+        
+
+        //if (EnemigoActual == null || EnemigoActual.gameObject == null){
+
+        //    SaltarNormal();
+        //    EstaCominedo = false;
+        //}
     }
 
     private void Condicion_Salto()
