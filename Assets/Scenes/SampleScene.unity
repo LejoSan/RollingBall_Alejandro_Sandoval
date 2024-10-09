@@ -648,7 +648,7 @@ MonoBehaviour:
   velocidadMovimiento: 3
   fuerzaSalto: 5
   distanciaChequeoSuelo: 1.1
-  velocidadDesplazamientoRapido: 20
+  velocidadDesplazamientoRapido: 10
   Danho: 1
 --- !u!65 &496213686
 BoxCollider:
