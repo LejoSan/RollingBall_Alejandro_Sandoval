@@ -120,10 +120,18 @@ public class Control_Personaje : MonoBehaviour
 
             if (!EnemigoActual.EstaVivo())
             {
+                Vector3 posicionEnemigo = EnemigoActual.transform.position;
                 EnemigoActual.DestruirEnemigo();
+                transform.position = posicionEnemigo;
+                rb.velocity = Vector3.zero;
                 HaLlegadoAlEnemigo = false;
                 EstaCominedo = false;
-                Debug.Log("TE MATE");
+
+                Debug.Log("TE MATE Y ME MOVI A TU POSICION");
+                //EnemigoActual.DestruirEnemigo();
+                //HaLlegadoAlEnemigo = false;
+                //EstaCominedo = false;
+                //Debug.Log("TE MATE");
 
             }
 
