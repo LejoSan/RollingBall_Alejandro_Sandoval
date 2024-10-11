@@ -12,6 +12,7 @@ public class Control_Enemigo : MonoBehaviour
 
     private Transform jugador;
     private bool jugadorEnRango = false;
+    private bool siendoComido = false;
 
     // Start is called before the first frame update
     void Start()
