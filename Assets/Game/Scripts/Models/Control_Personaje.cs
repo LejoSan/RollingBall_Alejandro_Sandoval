@@ -113,7 +113,7 @@ public class Control_Personaje : MonoBehaviour
         if(EnemigoActual != null) 
         
         {
-
+            EnemigoActual.SiendoComido = true;
             EnemigoActual.RecibirDahno(Danho);
 
             Debug.Log("TE QUITE " + EnemigoActual.Vida);
