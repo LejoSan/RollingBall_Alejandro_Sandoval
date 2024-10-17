@@ -2,12 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Control_Personaje : MonoBehaviour
+public class Control_Rana : MonoBehaviour
 {
     [SerializeField] private float velocidadMovimiento = 5f;
     [SerializeField] private float fuerzaSalto = 5f;
     [SerializeField] private float distanciaChequeoSuelo = 1.1f;
-    
+
+    [SerializeField] private float tiempoMaxCarga = 2f;
+    [SerializeField] private float fuerzaSaltoMaxima = 10f;
+
+    [SerializeField] private float rangoAtaque = 10f;
+    [SerializeField] private LayerMask capaEnemigos;
+
+    private float tiempoCarga = 0f;
+    private bool cargandoSalto = false;
+
+
     private bool EstaCominedo = false;
     private bool HaLlegadoAlEnemigo = false;
     [SerializeField] private float velocidadDesplazamientoRapido = 10f;
@@ -15,6 +25,7 @@ public class Control_Personaje : MonoBehaviour
 
     private Rigidbody rb;
     private Control_Enemigo EnemigoActual;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,21 +35,23 @@ public class Control_Personaje : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!EstaCominedo && !HaLlegadoAlEnemigo)
         if (!EstaCominedo)
-        /*if (!HaLlegadoAlEnemigo)*/
         {
-           
             EnMovimiento();
             Condicion_Salto();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            DetectarEnemigos();
         }
 
         if (HaLlegadoAlEnemigo && Input.GetKeyDown(KeyCode.E))
         {
             ComerEnemigo();
         }
-        
-       
+
+
     }
     private void EnMovimiento()
     {
@@ -49,16 +62,42 @@ public class Control_Personaje : MonoBehaviour
         rb.AddForce(movimiento);
     }
 
+    private void DetectarEnemigos()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, rangoAtaque, capaEnemigos))
+        {
+            Control_Enemigo enemigo = hit.collider.GetComponent<Control_Enemigo>();
+            if (enemigo != null)
+            {
+                IralEnemigo(enemigo);
+            }
+        }
+    }
+
+    private void IralEnemigo(Control_Enemigo enemigo)
+    {
+        EnemigoActual = enemigo;
+        EnemigoActual.SiendoComido = true;
+        EstaCominedo = true;
+
+        Vector3 direccion = (EnemigoActual.transform.position - this.transform.position).normalized;
+        rb.velocity = direccion * velocidadDesplazamientoRapido;
+
+        StartCoroutine(DetenerseAlllegar());
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemigo") && Input.GetKeyDown(KeyCode.E)){
+        if (other.CompareTag("Enemigo") && Input.GetKeyDown(KeyCode.E))
+        {
 
             EnemigoActual = other.GetComponent<Control_Enemigo>();
 
             if (EnemigoActual != null)
             {
                 IralEnemigo();
-                
+
             }
         }
     }
@@ -68,20 +107,20 @@ public class Control_Personaje : MonoBehaviour
 
         EnemigoActual.SiendoComido = true;
 
-        //EstaCominedo = true;
+        EstaCominedo = true;
 
         Vector3 direccion = (EnemigoActual.transform.position - this.transform.position).normalized;
 
         rb.velocity = direccion * velocidadDesplazamientoRapido;
         Vector3 distancia = (EnemigoActual.transform.position - this.transform.position);
- 
+
         //if(distancia.magnitude < 0.1f)
         //{
         //     Debug.Log("LLEGUE AL ENEMIGO ");
 
         //}
         //StartCoroutine(DetenerseAlllegar());
- 
+
         StartCoroutine(DetenerseAlllegar());
     }
 
@@ -99,7 +138,7 @@ public class Control_Personaje : MonoBehaviour
 
         HaLlegadoAlEnemigo = true;
         EstaCominedo = false;
-      
+
         //while (HaLlegadoAlEnemigo)
         //{
         //    yield return null;
@@ -114,12 +153,11 @@ public class Control_Personaje : MonoBehaviour
     private void ComerEnemigo()
     {
 
-        if(EnemigoActual != null) 
-        
+        if (EnemigoActual != null)
+
         {
-            
+
             EnemigoActual.RecibirDahno(Danho);
-            //EstaCominedo = true;
 
             Debug.Log("TE QUITE " + EnemigoActual.Vida);
 
@@ -141,7 +179,7 @@ public class Control_Personaje : MonoBehaviour
             }
 
         }
-        
+
 
         //if (EnemigoActual == null || EnemigoActual.gameObject == null){
 
@@ -152,13 +190,25 @@ public class Control_Personaje : MonoBehaviour
 
     private void Condicion_Salto()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && EstaEnElSuelo())
+        if (Input.GetKey(KeyCode.Space) && EstaEnElSuelo())
         {
-            SaltarNormal();
+            cargandoSalto = true;
+            tiempoCarga += Time.deltaTime;
+            tiempoCarga = Mathf.Clamp(tiempoCarga, 0, tiempoMaxCarga);
+            // Aquí puedes mostrar una barra de carga con un UI Slider
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && cargandoSalto)
+        {
+            float fuerzaActualSalto = Mathf.Lerp(0, fuerzaSaltoMaxima, tiempoCarga / tiempoMaxCarga);
+            SaltarNormal(fuerzaActualSalto);
+            cargandoSalto = false;
+            tiempoCarga = 0;
+            // Ocultar la barra de carga
         }
     }
 
-    private void SaltarNormal()
+    private void SaltarNormal(float fuerza)
     {
         rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
     }

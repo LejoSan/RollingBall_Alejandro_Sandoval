@@ -7,6 +7,7 @@ public class Control_Enemigo : MonoBehaviour
 
     [SerializeField] private int vida = 5;
     [SerializeField] private float velocidadMovimiento = 3f;
+    [SerializeField] private GameObject indicador;
     private Transform jugador;
     private bool jugadorEnRango = false;
     private bool siendoComido = false;
@@ -21,6 +22,11 @@ public class Control_Enemigo : MonoBehaviour
     {
         jugador = GameObject.FindGameObjectWithTag("Jugador").transform;
         rbEnemigo = GetComponent<Rigidbody>();
+
+        if (indicador != null)
+        {
+            indicador.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -42,6 +48,7 @@ public class Control_Enemigo : MonoBehaviour
         if (other.CompareTag("Jugador"))
         {
             jugadorEnRango = true;
+            MostrarIndicador();
         }
     }
 
@@ -50,6 +57,7 @@ public class Control_Enemigo : MonoBehaviour
         if (other.CompareTag("Jugador"))
         {
             jugadorEnRango = false;
+            OcultarIndicador();
         }
     }
    
@@ -79,4 +87,19 @@ public class Control_Enemigo : MonoBehaviour
         return vida > 0;
     }
 
+    private void MostrarIndicador()
+    {
+        if (indicador != null)
+        {
+            indicador.SetActive(true);
+        }
+    }
+
+    private void OcultarIndicador()
+    {
+        if (indicador != null)
+        {
+            indicador.SetActive(false);
+        }
+    }
 }
