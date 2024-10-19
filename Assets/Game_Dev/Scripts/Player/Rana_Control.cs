@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class Rana_Control : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private float velocidadMovimiento = 5f;
+    [SerializeField] private Barra_Salto barraSalto;
+
+    private Rigidbody rb;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        EnMovimiento();
+
+        barraSalto.ContrarSalto();
+    }
+
+    private void EnMovimiento()
+    {
+        float movimientoHorizontal = Input.GetAxisRaw("Horizontal") * velocidadMovimiento;
+        float movimientoVertical = Input.GetAxisRaw("Vertical") * velocidadMovimiento;
+        Vector3 movimiento = new Vector3(movimientoHorizontal, 0.0f, movimientoVertical);
+        rb.AddForce(movimiento);
     }
 }
