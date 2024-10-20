@@ -6,6 +6,7 @@ public class Rana_Control : MonoBehaviour
 {
     [SerializeField] private float velocidadMovimiento = 5f;
     [SerializeField] private Barra_Salto barraSalto;
+    [SerializeField] private Ataque_Lengua ataqueLengua;
 
     private Rigidbody rb;
 
@@ -17,9 +18,17 @@ public class Rana_Control : MonoBehaviour
 
     void Update()
     {
-        EnMovimiento();
+        if (!ataqueLengua.EstaAtacando)
+        {
+            EnMovimiento();
+            barraSalto.ContrarSalto();
+        }
 
-        barraSalto.ContrarSalto();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Presioné la E");
+            ataqueLengua.LanzarLengua();
+        }
     }
 
     private void EnMovimiento()
