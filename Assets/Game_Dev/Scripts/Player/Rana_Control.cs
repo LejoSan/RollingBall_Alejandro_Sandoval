@@ -10,6 +10,8 @@ public class Rana_Control : MonoBehaviour
 
     private Rigidbody rb;
 
+    public Ataque_Lengua AtaqueLengua { get => ataqueLengua; set => ataqueLengua = value; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -18,15 +20,17 @@ public class Rana_Control : MonoBehaviour
 
     void Update()
     {
-        if (!ataqueLengua.EstaAtacando)
+        // Solo permitir movimiento si no está atacando
+        if (!ataqueLengua.estaAtacando)  
         {
-            EnMovimiento();
-            barraSalto.ContrarSalto();
+            EnMovimiento(); 
+            barraSalto.ContrarSalto(); 
         }
 
+        // Llamar al ataque de la lengua
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Presioné la E");
+            Debug.Log("Presionaste la E");
             ataqueLengua.LanzarLengua();
         }
     }

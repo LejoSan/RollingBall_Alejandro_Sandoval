@@ -5,58 +5,62 @@ using UnityEngine;
 public class Ataque_Lengua : MonoBehaviour
 {
 
-    // Comportamiento lengua - Variables 
-    [SerializeField] private float rangoLengua = 10f;
-    [SerializeField] private Transform puntosalidaLengua;
-    [SerializeField] private GameObject lengua;
-    [SerializeField] private float VelocidadEstiramiento = 5f;
-    private Vector3 posicionInicialLengua;
+    // Variables de la lengua
 
-    // Comportamiento Logica deteccion enemigo - Variable 
-    [SerializeField] private LayerMask enemigoLayer;
+    [SerializeField] private Transform puntoLengua; 
+    [SerializeField] private float velocidadEstiramiento = 10f; 
+    [SerializeField] private float distanciaMaxima = 5f;
+    private float longitudLengua = 0f;
 
-    // Valores especificos - Variables
-    [SerializeField] private float velocidadDesplazamientoRapido = 10f;
-    [SerializeField] private int danho = 1;
 
-    // Valores de estado - Variables
-    private bool estaAtacando = false;
+    //[SerializeField] private GameObject lengua;
+    //private float longitudLengua = 0f;
 
-    // Referencias - Llamados
-    private Enemigo_Control Enemigo;
-    private Rigidbody rb;
+    // Detectar enemigos
 
+    private List<Transform> enemigosCercanos = new List<Transform>();
+    private List<Transform> enemigosObjetivos = new List<Transform>();
+
+ 
+    //[SerializeField] private int danho = 1;
+    //private Transform enemigoCercano;
+    //[SerializeField] private LayerMask enemigoLayer;
+
+
+
+    // Variables de estado
+
+    public bool estaAtacando = false;
+
+
+    //private Vector3 escalaInicialLengua;
+    //private Enemigo_Control enemigoObjetivo;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        
     }
 
-    public void LanzarLengua()
+    public void Atacar()
     {
-        if (!estaAtacando)
+        if (!estaAtacando && enemigosCercanos.Count > 0)
         {
-            Collider[] enemigos = Physics.OverlapSphere(this.transform.position, rangoLengua, enemigoLayer);
+            enemigosObjetivos.Clear();
 
+            enemigosObjetivos.AddRange(enemigosCercanos);
 
-            if (enemigos.Length > 0)
-            {
-                ObtenerEnemigoCercano(enemigos);
-            }
-
+            estaAtacando = true;
+            
+            
         }
 
+        private IEnumerator 
     }
 
-    private Enemigo_Control ObtenerEnemigoCercano(Collider[] enemigos)
-    {
-        float distanciaMasCorta = Mathf.Infinity;
-        Debug.Log("aaaa");
-    }
+   
 }
