@@ -121,7 +121,7 @@ public class Enemigo_Control : MonoBehaviour
             GameObject jugador = GameObject.FindGameObjectWithTag("Jugador");
             if (jugador != null)
             {
-                jugador.GetComponent<Rana_Control>().LiberarMovimiento();
+                //jugador.GetComponent<Rana_Control>().LiberarMovimiento();
             }
 
             Destroy(gameObject);
