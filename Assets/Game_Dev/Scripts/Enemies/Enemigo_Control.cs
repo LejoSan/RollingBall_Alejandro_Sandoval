@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Enemigo_Control : MonoBehaviour
 {
-
+    [Header("Configuración del Enemigo")]
     [SerializeField] private int vida = 5;
+    [SerializeField] private int Pinchazo = 1;
     [SerializeField] private float velocidadMovimiento = 3f;
     [SerializeField] private GameObject indicador;
-    private Transform jugador;
-    private bool jugadorEnRango = false;
-    private bool siendoComido = false;
-    private Rigidbody rbEnemigo;
-    private bool enContactoParaDano = false;
 
+
+    [Header("Referencias Internas")]
+    private Transform jugador;
+    private Rigidbody rbEnemigo;
     private Rana_Control rana;
     private Rigidbody rbjugador;
 
+    [Header("Estado del Enemigo")]
+    private bool jugadorEnRango = false;
+    private bool enContactoParaDano = false;
+    private bool enContactoConRana = false;
+
     public int Vida { get => vida; set => vida = value; }
-    public bool SiendoComido { get => siendoComido; set => siendoComido = value; }
     public bool EnContactoParaDano { get => enContactoParaDano; set => enContactoParaDano = value; }
 
 
@@ -27,10 +31,9 @@ public class Enemigo_Control : MonoBehaviour
     {
         jugador = GameObject.FindGameObjectWithTag("Jugador").transform;
         rbEnemigo = GetComponent<Rigidbody>();
-
-
         rana = jugador.GetComponent<Rana_Control>();
         rbjugador = jugador.GetComponent<Rigidbody>();
+        
 
         if (indicador != null)
         {
@@ -45,21 +48,21 @@ public class Enemigo_Control : MonoBehaviour
         {
             SeguirJugador();
         }
-        //if (jugadorEnRango && !siendoComido)
-        //{
-        //    SeguirJugador();
-        //}
     }
+
+    // Perseguir al jugador 
     private void SeguirJugador()
     {
         Vector3 direccion = (jugador.position - transform.position).normalized;
         transform.position += direccion * velocidadMovimiento * Time.deltaTime;
     }
 
-    public void OnTriggerEnter(Collider other)
+    // -- Cuando la Rana Entra y salga del Rango del Enemigo
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Jugador"))
         {
+            EnContactoParaDano = false;
             jugadorEnRango = true;
             MostrarIndicador();
         }
@@ -69,63 +72,98 @@ public class Enemigo_Control : MonoBehaviour
     {
         if (other.CompareTag("Jugador"))
         {
-            jugadorEnRango = false;
+            //EnContactoParaDano = true;
+            jugadorEnRango = false;           
             OcultarIndicador();
         }
     }
 
+
+
+    // -- Cuando el Enemigo Choca con la Rana
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Jugador"))
         {
             EnContactoParaDano = true;
-            jugadorEnRango = false; // Detenemos el movimiento hacia el jugador
+            jugadorEnRango = true;             // Detenemos el movimiento hacia el jugador
+
+            enContactoConRana = true;
+
+            Debug.Log("Detengo el movimiento hacia el enemigo");
+
+            StartCoroutine(PreparoAtaque());
         }
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Jugador"))
+        {
+            // Sale de contacto con la rana
+            enContactoConRana = false;
+            EnContactoParaDano = false;
+        }
+    }
+
+    private IEnumerator PreparoAtaque()
+    {
+        while (enContactoConRana)
+        {
+            // Reduce la vida de la rana en 1
+            rana.VidaRana -= Pinchazo;
+            Debug.Log("La vida de la rana es " + rana.VidaRana);
+
+            // Espera 1 segundo antes de repetir
+            yield return new WaitForSeconds(3f);
+
+            if (rana.VidaRana >= 0)
+            {
+                rana.MuerteRana();
+            }
+        }
+
+    }
+
+
     public void RecibirDahno(int cantidad)
     {
-        if (EnContactoParaDano) // Aplica daño solo si está en contacto y siendo comido
+        if (EnContactoParaDano)                 // Aplica daño solo si está en contacto y siendo comido
         {
             vida -= cantidad;
-
             rbjugador.constraints = RigidbodyConstraints.FreezeAll;
+            rbEnemigo.constraints = RigidbodyConstraints.FreezeAll;
 
-            rbEnemigo.constraints = RigidbodyConstraints.FreezeAll; // Congela el movimiento al ser atacado
             Debug.Log("Enemigo recibió " + cantidad + " de daño. Vida actual: " + vida);
 
             if (vida <= 0)
             {
                 DestruirEnemigo();
             }
+            //else
+            //{
+            //    // Descongela el Rigidbody después de un tiempo
+            //    StartCoroutine(DescongelarDespuesDeDano());
+            //}
         }
-        //vida = vida - cantidad;
-
-        //if (siendoComido)
-        //{
-        //    rbEnemigo.constraints = RigidbodyConstraints.FreezePosition;
-        //    Debug.Log("Enemigo recibió " + cantidad + " de daño. Vida actual: " + vida);
-        //}
-
-    }
-    public void CongelarEnemigo(bool congelar)
-    {
-        rbEnemigo.constraints = congelar ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
     }
 
+    //private IEnumerator DescongelarDespuesDeDano()
+    //{
+    //    yield return new WaitForSeconds(1f); // Espera 1 segundo antes de descongelar
+    //    rbEnemigo.constraints = RigidbodyConstraints.None;
+    //    rbEnemigo.constraints = RigidbodyConstraints.FreezeRotation; // Congela solo la rotación para que el enemigo pueda moverse
+    //}
     public void DestruirEnemigo()
     {
         if (vida <= 0)
         {
-            // Llamar a LiberarMovimiento en el jugador
             GameObject jugador = GameObject.FindGameObjectWithTag("Jugador");
-            if (jugador != null)
-            {
-                //jugador.GetComponent<Rana_Control>().LiberarMovimiento();
-            }
-
             Destroy(gameObject);
+            rana.LiberarMovimiento();
             Debug.Log("Enemigo destruido y movimiento del jugador liberado.");
+
+            
         }
     }
 

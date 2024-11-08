@@ -23,37 +23,38 @@ public class Barra_Salto : MonoBehaviour
          
     }
 
-    public void ContrarSalto()
-    {
-        if (EstaEnElSuelo())
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                CargarSalto();
-            }
+    //public void ContrarSalto()
+    //{
+    //    if (EstaEnElSuelo())
+    //    {
+    //        if (Input.GetKey(KeyCode.Space))
+    //        {
+    //            CargarSalto();
+    //        }
 
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                Saltar();
-            }
-        }
-    }
+    //        if (Input.GetKeyUp(KeyCode.Space))
+    //        {
+    //            Debug.Log("ESTYOY PRESIONANDO EL SPACE ");
+    //            Saltar();
+    //        }
+    //    }
+    //}
 
-    private void CargarSalto()
+    public void CargarSalto()
     {
         fuerzaActual += Time.deltaTime * 20;  
         fuerzaActual = Mathf.Clamp(fuerzaActual, 0, fuerzaMaximaSalto);
         barraSalto.value = fuerzaActual / fuerzaMaximaSalto;
     }
 
-    private void Saltar()
+    public void Saltar()
     {
         rb.AddForce(Vector3.up * fuerzaActual, ForceMode.Impulse);
         fuerzaActual = 0f;
         barraSalto.value = 0f;
     }
 
-    private bool EstaEnElSuelo()
+    public bool EstaEnElSuelo()
     {
         return Physics.Raycast(transform.position, Vector3.down, distanciaChequeoSuelo);
     }
