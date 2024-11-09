@@ -53,6 +53,10 @@ public class Enemigo_Control : MonoBehaviour
     // Perseguir al jugador 
     private void SeguirJugador()
     {
+        Vector3 direccionHaciaJugador = (jugador.transform.position - transform.position).normalized;
+        Quaternion rotacionObjetivo = Quaternion.LookRotation(direccionHaciaJugador);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotacionObjetivo, Time.deltaTime * 5f);
+
         Vector3 direccion = (jugador.position - transform.position).normalized;
         transform.position += direccion * velocidadMovimiento * Time.deltaTime;
     }
