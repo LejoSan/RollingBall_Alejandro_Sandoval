@@ -22,6 +22,11 @@ public class Ataque_Lengua : MonoBehaviour
     private Animator animator;
     void Start()
     {
+        if (lenguaRenderer != null)
+        {
+            lenguaRenderer.enabled = false;
+        }
+
         animator = GetComponent<Animator>();
     }
 
@@ -187,7 +192,10 @@ public class Ataque_Lengua : MonoBehaviour
             Destroy(enemigoObjetivo.gameObject);
             enemigoObjetivo = null;
 
-
+            if (lenguaRenderer != null)
+            {
+                lenguaRenderer.enabled = false;
+            }
             // Restablecer el estado de ataque en el Animator
             StartCoroutine(Reseteo_Estado(0.2f));
 
@@ -205,7 +213,7 @@ public class Ataque_Lengua : MonoBehaviour
     private IEnumerator Reseteo_Estado(float delay)
     {
         yield return new WaitForSeconds(delay);
-
+        lenguaRenderer.enabled = false;
         animator.SetBool("EnAtaque", false);
 
         // Verifica si el Animator realmente ha salido del estado de ataque

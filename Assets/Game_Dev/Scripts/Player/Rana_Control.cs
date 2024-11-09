@@ -15,6 +15,7 @@ public class Rana_Control : MonoBehaviour
 
     private float rotacionSuave = 0.1f;
     float velocidadRotacionSuave;
+    private int Vida_Rana_Maxima = 10;
 
     [Header("Animaciones")]
     private Animator animator;
@@ -129,17 +130,28 @@ public class Rana_Control : MonoBehaviour
 
 
     // Grafico de la capsula
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, rangoDeteccion);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position, rangoDeteccion);
+    //}
 
     public void MuerteRana()
     {
-        if (VidaRana <= 0)
+       Debug.Log("LA RANA MURIO-----------------------------------------");
+
+    }
+
+    public void AumentarVida(int cantidad)
+    {
+        Vida_Rana += cantidad;
+
+        // Limita la vida del jugador al valor máximo
+        if (Vida_Rana > Vida_Rana_Maxima)
         {
-            Debug.Log("LA RANA MURIO-----------------------------------------");
+            Vida_Rana = Vida_Rana_Maxima;
         }
+
+        Debug.Log("Vida actual del jugador: " + Vida_Rana);
     }
 }

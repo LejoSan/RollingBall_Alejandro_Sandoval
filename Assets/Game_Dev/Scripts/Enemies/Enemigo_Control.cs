@@ -117,7 +117,7 @@ public class Enemigo_Control : MonoBehaviour
             // Espera 1 segundo antes de repetir
             yield return new WaitForSeconds(3f);
 
-            if (rana.VidaRana >= 0)
+            if (rana.VidaRana <=1)
             {
                 rana.MuerteRana();
             }

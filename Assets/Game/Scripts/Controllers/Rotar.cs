@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Rotar : MonoBehaviour
 {
-    
+
     [SerializeField] private Vector3 velocidadRotacion = new Vector3(0, 0, 0);
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -17,4 +17,6 @@ public class Rotar : MonoBehaviour
     {
         transform.Rotate(velocidadRotacion * Time.deltaTime);
     }
+
+
 }

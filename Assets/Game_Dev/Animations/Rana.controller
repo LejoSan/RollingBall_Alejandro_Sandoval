@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Armature_Idel_ajustado
+  m_Name: Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -67,6 +67,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Comer
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: EnAtaque
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7542760242280790373}
   m_Solo: 0
@@ -101,7 +104,7 @@ AnimatorStateMachine:
     m_Position: {x: 590, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7542760242280790373}
-    m_Position: {x: 420, y: -10, z: 0}
+    m_Position: {x: 420, y: -20, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -135,6 +138,12 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: Comer
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: EnAtaque
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -182,8 +191,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Comer
+  - m_ConditionMode: 2
+    m_ConditionEvent: EnAtaque
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8121163971200460590}
@@ -232,7 +241,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature_Caminar_Sitio
-  m_Speed: 2
+  m_Speed: 1.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 9206197234857323510}
