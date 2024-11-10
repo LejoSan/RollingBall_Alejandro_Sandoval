@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Rana_Control : MonoBehaviour
 {
@@ -8,30 +9,52 @@ public class Rana_Control : MonoBehaviour
 
     // Referencia a los parametros de la rana
     [SerializeField] private float velocidadMovimiento = 5f;
-    [SerializeField] private int Vida_Rana = 5;
     [SerializeField] private float rangoDeteccion = 10f;
     [SerializeField] private Barra_Salto barraSalto;
     [SerializeField] private Ataque_Lengua ataqueLengua;
+    [SerializeField] private BarraDeVida barra_de_vida;
+    [SerializeField] private int Vida_Rana = 10;
 
+    private int Vida_Rana_Maxima = 10;
     private float rotacionSuave = 0.1f;
     float velocidadRotacionSuave;
-    private int Vida_Rana_Maxima = 10;
 
     [Header("Animaciones")]
     private Animator animator;
 
     // Lista de enemigos en rango
+    [SerializeField] private Slider vidaSlider;
     [SerializeField] private List<GameObject> enemigosEnRango = new List<GameObject>();
 
     // Rigidbody de la rana
     private Rigidbody rb;
 
-    public int VidaRana { get => Vida_Rana; set => Vida_Rana = value; }
+    public int VidaRana
+    {
+        get => Vida_Rana;
+        set
+
+        {
+            Vida_Rana = Mathf.Clamp(value, 0, Vida_Rana_Maxima);
+            ActualizarVidaUI(); 
+            if (Vida_Rana <= 0)
+            {
+                MuerteRana();
+            }
+        }
+    }
 
     void Start()
     {
+        if (vidaSlider != null)
+        {
+            vidaSlider.maxValue = Vida_Rana_Maxima;
+            vidaSlider.value = Vida_Rana;
+        }
+
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
 
     }
     void FixedUpdate()
@@ -145,7 +168,7 @@ public class Rana_Control : MonoBehaviour
     public void AumentarVida(int cantidad)
     {
         Vida_Rana += cantidad;
-
+        ActualizarVidaUI();
         // Limita la vida del jugador al valor máximo
         if (Vida_Rana > Vida_Rana_Maxima)
         {
@@ -154,4 +177,17 @@ public class Rana_Control : MonoBehaviour
 
         Debug.Log("Vida actual del jugador: " + Vida_Rana);
     }
+
+    public void RecibirDano(int cantidad)
+    {
+        VidaRana -= cantidad;
+    }
+
+    private void ActualizarVidaUI()
+    {
+       vidaSlider.value = Vida_Rana;
+
+    }
+
+
 }

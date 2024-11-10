@@ -23,20 +23,20 @@ public class powerUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Verifica si el objeto con el que colisiona es el jugador
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Jugador"))
         {
-            // Intenta obtener el script de la rana para aumentar su vida
+            
             Rana_Control jugador = other.GetComponent<Rana_Control>();
             if (jugador != null)
             {
-                // Llama a un método en el jugador para aumentar su vida
+                
                 jugador.AumentarVida(cantidadVida);
 
-                // Muestra un mensaje en la consola
+                
                 Debug.Log("Vida del jugador aumentada en: " + cantidadVida);
 
-                // Destruye el objeto Power-Up para que no se vuelva a recoger
+                
                 Destroy(gameObject);
             }
         }

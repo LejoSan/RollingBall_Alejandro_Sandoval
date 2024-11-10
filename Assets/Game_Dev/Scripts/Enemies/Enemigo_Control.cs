@@ -9,6 +9,8 @@ public class Enemigo_Control : MonoBehaviour
     [SerializeField] private int Pinchazo = 1;
     [SerializeField] private float velocidadMovimiento = 3f;
     [SerializeField] private GameObject indicador;
+    private Control_Animacion_Avispa animacionAvispa;
+    [SerializeField] private float tiempo_ataque;
 
 
     [Header("Referencias Internas")]
@@ -29,6 +31,7 @@ public class Enemigo_Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animacionAvispa = GetComponent<Control_Animacion_Avispa>();
         jugador = GameObject.FindGameObjectWithTag("Jugador").transform;
         rbEnemigo = GetComponent<Rigidbody>();
         rana = jugador.GetComponent<Rana_Control>();
@@ -94,8 +97,7 @@ public class Enemigo_Control : MonoBehaviour
 
             enContactoConRana = true;
 
-            Debug.Log("Detengo el movimiento hacia el enemigo");
-
+            animacionAvispa.Atacar();
             StartCoroutine(PreparoAtaque());
         }
     }
@@ -107,6 +109,8 @@ public class Enemigo_Control : MonoBehaviour
             // Sale de contacto con la rana
             enContactoConRana = false;
             EnContactoParaDano = false;
+
+            animacionAvispa.VolverIdle();
         }
     }
 
@@ -114,16 +118,18 @@ public class Enemigo_Control : MonoBehaviour
     {
         while (enContactoConRana)
         {
+            yield return new WaitForSeconds(tiempo_ataque);
             // Reduce la vida de la rana en 1
-            rana.VidaRana -= Pinchazo;
+            rana.RecibirDano(Pinchazo);
             Debug.Log("La vida de la rana es " + rana.VidaRana);
 
             // Espera 1 segundo antes de repetir
-            yield return new WaitForSeconds(3f);
+            //yield return new WaitForSeconds(3f);
 
-            if (rana.VidaRana <=1)
+            if (rana.VidaRana <=0)
             {
                 rana.MuerteRana();
+                break;
             }
         }
 
