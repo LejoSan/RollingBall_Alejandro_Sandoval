@@ -513,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &28708875
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5326,7 +5326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &988304418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6158,7 +6158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &1126986228
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6225,7 +6225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &1132642496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7063,7 +7063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &1317785750
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7448,7 +7448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &1389546548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10834,7 +10834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &1834853316
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11771,7 +11771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0e06c874920b943862abc3f0d4b432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "cantidadDa\xF1o": 1
+  "cantidadDa\xF1o": 0
 --- !u!65 &2084050323
 BoxCollider:
   m_ObjectHideFlags: 0
