@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Rana_Control : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Rana_Control : MonoBehaviour
     [SerializeField] private Ataque_Lengua ataqueLengua;
     [SerializeField] private BarraDeVida barra_de_vida;
     [SerializeField] private int Vida_Rana = 10;
+    [SerializeField] GameObject muerte;
 
     private int Vida_Rana_Maxima = 10;
     private float rotacionSuave = 0.1f;
@@ -163,6 +165,9 @@ public class Rana_Control : MonoBehaviour
     {
        Debug.Log("LA RANA MURIO-----------------------------------------");
 
+        muerte.SetActive(true);
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        animator.SetBool("Muerte", true);
     }
 
     public void AumentarVida(int cantidad)
